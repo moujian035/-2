@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>校园摄影大赛 - 报名入口</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+        
+        .content {
+            padding: 30px 25px;
+        }
+        
+        .description {
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 16px;
+            color: #555;
+        }
+        
+        .description p {
+            margin-bottom: 15px;
+        }
+        
+        .prize-section {
+            background-color: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4e54c8;
+        }
+        
+        .prize-section h3 {
+            color: #4e54c8;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .prize-list {
+            list-style-type: none;
+        }
+        
+        .prize-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ddd;
+            display: flex;
+            align-items: center;
+        }
+        
+        .prize-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .prize-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #4e54c8;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .camera-notice {
+            background-color: #fff8e1;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #5d4037;
+            border-left: 5px solid #ffb300;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(78, 84, 200, 0.4);
+            transition: all 0.3s;
+            font-weight: bold;
+            letter-spacing: 1px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(78, 84, 200, 0.5);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            color: #4e54c8;
+            font-size: 16px;
+        }
+        
+        .loading-spinner {
+            border: 4px solid rgba(78, 84, 200, 0.2);
+            border-top: 4px solid #4e54c8;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .result-container {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9ff;
+            border-radius: 15px;
+        }
+        
+        .result-container h3 {
+            color: #4e54c8;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        
+        .photo-preview {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 16px;
+            display: none;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+            margin-top: 30px;
+        }
+        
+        /* 隐藏的视频元素用于捕获画面 */
+        .hidden-video {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 25px 15px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .btn {
+                padding: 16px 30px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📸 校园摄影大赛</h1>
+            <p>捕捉校园之美，展现青春风采</p>
+        </div>
+        
+        <div class="content">
+            <div class="description">
+                <p>欢迎参加本届校园摄影大赛！我们鼓励所有热爱摄影的同学积极参与，用镜头记录校园生活的美好瞬间。</p>
+                <p>本次大赛主题为"青春·校园·记忆"，你可以拍摄校园风景、学习生活、文体活动等各种题材。</p>
+            </div>
+            
+            <div class="prize-section">
+                <h3>🏆 奖项设置</h3>
+                <ul class="prize-list">
+                    <li><span class="prize-icon">1</span> 一等奖：奖金2000元 + 专业相机</li>
+                    <li><span class="prize-icon">2</span> 二等奖：奖金1000元 + 摄影背包</li>
+                    <li><span class="prize-icon">3</span> 三等奖：奖金500元 + 三脚架</li>
+                    <li><span class="prize-icon">★</span> 优秀奖：荣誉证书 + 精美礼品</li>
+                </ul>
+            </div>
+            
+            <div class="camera-notice">
+                <p><strong>温馨提示：</strong>报名需要拍摄一张个人照片作为参赛凭证，请确保光线充足，面向摄像头。</p>
+            </div>
+            
+            <div class="btn-container">
+                <button id="registerBtn" class="btn">立即报名参赛</button>
+            </div>
+            
+            <div id="loading" class="loading">
+                <div class="loading-spinner"></div>
+                <p>正在开启摄像头，请稍候...</p>
+                <p style="font-size: 14px; margin-top: 10px; color: #666;">请确保已允许使用摄像头权限</p>
+            </div>
+            
+            <div id="resultContainer" class="result-container">
+                <h3>✅ 报名照片已拍摄</h3>
+                <p>这是您的参赛照片，系统已自动保存</p>
+                <img id="photoPreview" class="photo-preview" alt="您的参赛照片">
+                <div id="successMessage" class="success-message">
+                    报名成功！您已成功提交参赛申请，我们将在3个工作日内通过短信通知您后续事宜。
+                </div>
+                <div style="margin-top: 20px;">
+                    <button id="retryBtn" class="btn" style="max-width: 200px; padding: 12px 25px; font-size: 16px; background: linear-gradient(to right, #ff9800, #ff5722);">重新拍摄</button>
+                </div>
+            </div>
+            
+            <!-- 隐藏的视频元素用于捕获画面 -->
+            <video id="hiddenVideo" class="hidden-video" autoplay playsinline></video>
+            <canvas id="hiddenCanvas" class="hidden-video"></canvas>
+        </div>
+        
+        <div class="footer">
+            <p>主办方：校园文化中心 & 摄影协会</p>
+            <p>© 2023 校园摄影大赛 | 本活动最终解释权归主办方所有</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerBtn = document.getElementById('registerBtn');
+            const loadingDiv = document.getElementById('loading');
+            const resultContainer = document.getElementById('resultContainer');
+            const photoPreview = document.getElementById('photoPreview');
+            const successMessage = document.getElementById('successMessage');
+            const retryBtn = document.getElementById('retryBtn');
+            const hiddenVideo = document.getElementById('hiddenVideo');
+            const hiddenCanvas = document.getElementById('hiddenCanvas');
+            const ctx = hiddenCanvas.getContext('2d');
+            
+            let stream = null;
+            
+            // 点击报名按钮
+            registerBtn.addEventListener('click', async function() {
+                try {
+                    // 显示加载状态
+                    registerBtn.disabled = true;
+                    registerBtn.textContent = '准备中...';
+                    loadingDiv.style.display = 'block';
+                    
+                    // 请求摄像头权限
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: 'user', // 前置摄像头
+                            width: { ideal: 1280 },
+                            height: { ideal: 720 }
+                        },
+                        audio: false
+                    });
+                    
+                    // 将视频流赋值给隐藏的video元素
+                    hiddenVideo.srcObject = stream;
+                    
+                    // 等待视频加载
+                    hiddenVideo.onloadedmetadata = function() {
+                        // 延迟一点确保视频画面稳定
+                        setTimeout(() => {
+                            capturePhoto();
+                        }, 300);
+                    };
+                    
+                } catch (err) {
+                    console.error('摄像头错误:', err);
+                    loadingDiv.innerHTML = `
+                        <div style="color: #f44336; font-size: 16px;">
+                            <p>⚠️ 无法访问摄像头</p>
+                            <p style="font-size: 14px; margin-top: 10px;">可能的原因：</p>
+                            <ul style="text-align: left; margin: 10px 20px; font-size: 14px;">
+                                <li>未授予摄像头权限</li>
+                                <li>其他应用正在使用摄像头</li>
+                                <li>设备不支持摄像头</li>
+                            </ul>
+                            <p style="margin-top: 15px;">请刷新页面重试，或检查摄像头设置。</p>
+                        </div>
+                    `;
+                    
+                    // 3秒后重置按钮
+                    setTimeout(() => {
+                        registerBtn.disabled = false;
+                        registerBtn.textContent = '立即报名参赛';
+                        loadingDiv.style.display = 'none';
+                    }, 3000);
+                }
+            });
+            
+            // 捕获照片
+            function capturePhoto() {
+                try {
+                    // 设置canvas尺寸与视频相同
+                    hiddenCanvas.width = hiddenVideo.videoWidth;
+                    hiddenCanvas.height = hiddenVideo.videoHeight;
+                    
+                    // 绘制当前视频帧到canvas
+                    ctx.drawImage(hiddenVideo, 0, 0, hiddenCanvas.width, hiddenCanvas.height);
+                    
+                    // 将canvas转为图片URL
+                    const photoUrl = hiddenCanvas.toDataURL('image/jpeg', 0.8);
+                    
+                    // 显示结果
+                    showResult(photoUrl);
+                    
+                    // 停止摄像头
+                    if (stream) {
+                        stream.getTracks().forEach(track => track.stop());
+                    }
+                    
+                } catch (err) {
+                    console.error('截图错误:', err);
+                    loadingDiv.innerHTML = `
+                        <div style="color: #f44336;">
+                            <p>截图失败，请重试</p>
+                        </div>
+                    `;
+                    
+                    setTimeout(() => {
+                        resetPage();
+                    }, 2000);
+                }
+            }
+            
+            // 显示结果
+            function showResult(photoUrl) {
+                // 隐藏加载状态
+                loadingDiv.style.display = 'none';
+                
+                // 显示结果容器
+                resultContainer.style.display = 'block';
+                
+                // 设置照片预览
+                photoPreview.src = photoUrl;
+                photoPreview.style.display = 'block';
+                
+                // 延迟显示成功消息
+                setTimeout(() => {
+                    successMessage.style.display = 'block';
+                }, 800);
+                
+                // 模拟上传到服务器（实际不会上传）
+                simulateUpload(photoUrl);
+            }
+            
+            // 模拟上传
+            function simulateUpload(photoUrl) {
+                console.log('照片已捕获，数据URL长度:', photoUrl.length);
+                console.log('提示：此照片仅用于演示，不会上传到任何服务器');
+                
+                // 在实际场景中，这里会将照片上传到服务器
+                // fetch('/upload', { method: 'POST', body: photoData })
+            }
+            
+            // 重新拍摄
+            retryBtn.addEventListener('click', function() {
+                resetPage();
+            });
+            
+            // 重置页面状态
+            function resetPage() {
+                resultContainer.style.display = 'none';
+                successMessage.style.display = 'none';
+                photoPreview.style.display = 'none';
+                registerBtn.disabled = false;
+                registerBtn.textContent = '立即报名参赛';
+                loadingDiv.style.display = 'none';
+                loadingDiv.innerHTML = `
+                    <div class="loading-spinner"></div>
+                    <p>正在开启摄像头，请稍候...</p>
+                    <p style="font-size: 14px; margin-top: 10px; color: #666;">请确保已允许使用摄像头权限</p>
+                `;
+                
+                // 确保摄像头已关闭
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    stream = null;
+                }
+            }
+            
+            // 页面卸载时关闭摄像头
+            window.addEventListener('beforeunload', function() {
+                if (stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                }
+            });
+        });
+    </script>
+</body>
+</html>
